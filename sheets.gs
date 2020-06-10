@@ -189,11 +189,9 @@ function createAppointment() {
   var fileno = sheet.getSheetName();
   var calID = "tmeyers@macleanwest.com";
   var cal = CalendarApp.getCalendarById(calID);
-  // var meetingType = Browser.inputBox("What Type of Event?");
   var meetingType = ss.getActiveSheet().getRange(row,1).getValue();
   var date = ss.getActiveSheet().getRange(row,3).getValue();
   var newEvent = cal.createEvent(meetingType+" ("+fileno+")", new Date(date.getTime()+8*3600000), new Date(date.getTime()+9*3600000),{description: "https://docs.google.com/spreadsheets/d/[documentidofspreadsheet]/edit#gid="+shid}).getId();
-  //var newEvent = cal.createAllDayEvent(meetingType+" ("+fileno+")", date, {description: "https://docs.google.com/spreadsheets/d/[documentidofspreadsheet]/edit#gid="+shid}).getId();
   var splitEventId = newEvent.split('@');
   var eventUrl = "https://www.google.com/calendar/event?eid="+Utilities.base64Encode(splitEventId[0] + " " + calID).toString().replace('=','');
   sheet.getRange(row,1).setFormula("=HYPERLINK(\""+eventUrl+"\",\""+meetingType+"\")");
